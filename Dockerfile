@@ -3,6 +3,7 @@ MAINTAINER  limed@sudoers.org
 
 RUN apk --no-cache add  bash \
                         bash-completion \
+                        ca-certificates \
                         python \
                         py-pip \
     && rm -rf /var/cache/apk/*
