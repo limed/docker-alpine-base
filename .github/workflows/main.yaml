@@ -1,0 +1,28 @@
+---
+name: Docker build
+on: [push]
+
+env:
+  IMAGE_NAME: alpine-base
+  IMAGE_TAG: ${{ github.sha }}
+  GITHUB_REPO: ${{ github.repository }}
+  LOGIN_SERVER: docker.pkg.github.com
+  IMAGE_PATH: "${LOGIN_SERVER}/${GITHUB_REPO}/${IMAGE_NAME}"
+
+jobs:
+  build:
+    name: Checkout and build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker login
+        id: docker-login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${LOGIN_SERVER}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
