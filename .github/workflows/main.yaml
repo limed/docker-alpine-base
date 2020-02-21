@@ -4,10 +4,10 @@ on: [push]
 
 env:
   IMAGE_NAME: alpine-base
+  LOGIN_SERVER: docker.pkg.github.com
   IMAGE_TAG: ${{ github.sha }}
   GITHUB_REPO: ${{ github.repository }}
-  LOGIN_SERVER: docker.pkg.github.com
-  IMAGE_PATH: "${LOGIN_SERVER}/${GITHUB_REPO}/${IMAGE_NAME}"
+  IMAGE_PATH: "${{ env.LOGIN_SERVER }}/${{ env.GITHUB_REPO }}/${{ env.IMAGE_NAME }}"
 
 jobs:
   setup:
