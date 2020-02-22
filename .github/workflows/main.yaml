@@ -2,13 +2,6 @@
 name: Docker build
 on: [push]
 
-env:
-  IMAGE_NAME: alpine-base
-  LOGIN_SERVER: docker.pkg.github.com
-  IMAGE_TAG: ${{ github.sha }}
-  GITHUB_REPO: ${{ github.repository }}
-  IMAGE_PATH: "${{ env.LOGIN_SERVER }}/${{ env.GITHUB_REPO }}/${{ env.IMAGE_NAME }}"
-
 jobs:
   setup:
     name: Checkout and login
@@ -34,5 +27,11 @@ jobs:
     steps:
       - name: Build and push image
         id: docker-build
+        env:
+          IMAGE_NAME: alpine-base
+          LOGIN_SERVER: docker.pkg.github.com
+          IMAGE_TAG: ${{ github.sha }}
+          GITHUB_REPO: ${{ github.repository }}
+          IMAGE_PATH: "${{ LOGIN_SERVER }}/${{ GITHUB_REPO }}/${{ IMAGE_NAME }}"
         run: |
-          docker build -t ${IMAGE_PATH}:${IMAGE_TAG} .
+          docker build -t "docker.pkg.github.com/${{ github.repository }}/alpine-base:${{ github.sha }}" .
